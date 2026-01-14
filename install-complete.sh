@@ -88,45 +88,74 @@ install_opencode() {
     
     # Check if OpenCode is already installed
     if command -v opencode &> /dev/null; then
-        log_warn "OpenCode is already installed"
-        opencode --version || true
-        read -p "Reinstall? (y/N): " -n 1 -r
-        echo
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            log_info "Skipping OpenCode installation"
-            return
+        log_success "OpenCode is already installed"
+        OPENCODE_VERSION=$(opencode --version 2>&1 || echo "unknown")
+        log_info "Version: $OPENCODE_VERSION"
+        return 0
+    fi
+    
+    log_info "OpenCode not found - Installing now..."
+    
+    # Try installation methods in order of preference
+    INSTALLED=false
+    
+    # Method 1: Homebrew (macOS/Linux)
+    if [ "$OS" = "darwin" ] && command -v brew &> /dev/null; then
+        log_info "Attempting Homebrew installation..."
+        if brew tap sst/opencode 2>/dev/null && brew install opencode 2>/dev/null; then
+            INSTALLED=true
+            log_success "OpenCode installed via Homebrew"
         fi
     fi
     
-    # Install OpenCode based on platform
-    log_info "Downloading OpenCode..."
-    
-    if [ "$OS" = "darwin" ]; then
-        # macOS installation
-        if command -v brew &> /dev/null; then
-            log_info "Installing via Homebrew..."
-            brew tap opencode-ai/opencode 2>/dev/null || true
-            brew install opencode 2>/dev/null || log_warn "Homebrew install failed, trying alternative..."
+    # Method 2: NPM (universal)
+    if [ "$INSTALLED" = false ] && command -v npm &> /dev/null; then
+        log_info "Attempting NPM installation..."
+        if npm install -g @opencode-ai/opencode 2>/dev/null || npm install -g opencode 2>/dev/null; then
+            INSTALLED=true
+            log_success "OpenCode installed via NPM"
         fi
     fi
     
-    # Alternative: Install via npm if available
-    if ! command -v opencode &> /dev/null && command -v npm &> /dev/null; then
-        log_info "Installing OpenCode via npm..."
-        npm install -g opencode 2>/dev/null || log_warn "NPM install failed"
-    fi
-    
-    # Alternative: Download binary directly
-    if ! command -v opencode &> /dev/null; then
-        log_warn "OpenCode not available via package managers"
-        log_info "Note: OpenCode installation may vary by platform"
-        log_info "You can install it manually from: https://opencode.ai"
+    # Method 3: Direct download
+    if [ "$INSTALLED" = false ]; then
+        log_info "Attempting direct download..."
+        OPENCODE_URL="https://github.com/sst/opencode/releases/latest/download/opencode-${OS}-${ARCH}"
+        if [ "$OS" = "darwin" ]; then
+            OPENCODE_URL="https://github.com/sst/opencode/releases/latest/download/opencode-macos-${ARCH}"
+        fi
         
-        # For demo purposes, we'll continue with Enterprise Shield only
-        log_warn "Continuing with Enterprise Shield installation only..."
+        mkdir -p "${HOME}/.local/bin"
+        if curl -fsSL "$OPENCODE_URL" -o "${HOME}/.local/bin/opencode" 2>/dev/null; then
+            chmod +x "${HOME}/.local/bin/opencode"
+            export PATH="${HOME}/.local/bin:$PATH"
+            INSTALLED=true
+            log_success "OpenCode installed to ~/.local/bin/opencode"
+            log_info "Add to PATH: export PATH=\"\$HOME/.local/bin:\$PATH\""
+        fi
+    fi
+    
+    # Verify installation
+    if command -v opencode &> /dev/null; then
+        log_success "OpenCode installation verified"
+        opencode --version 2>&1 || log_info "Version check not available"
+        return 0
+    elif [ "$INSTALLED" = true ]; then
+        log_success "OpenCode binary downloaded"
+        log_warn "You may need to add to PATH or restart terminal"
+        return 0
     else
-        log_success "OpenCode installed successfully"
-        opencode --version || true
+        log_warn "OpenCode automatic installation failed"
+        echo ""
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        log_info "You can install OpenCode manually:"
+        echo "  • Homebrew: brew tap sst/opencode && brew install opencode"
+        echo "  • NPM: npm install -g @opencode-ai/opencode"
+        echo "  • Download: https://github.com/sst/opencode/releases/latest"
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        echo ""
+        log_info "Enterprise Shield will still work independently"
+        echo ""
     fi
 }
 
