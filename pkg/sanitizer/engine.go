@@ -28,7 +28,8 @@ func NewEngine(rules []types.SanitizationRule) *Engine {
 		aliasGen:      NewAliasGenerator(),
 		regexTimeout:  50 * time.Millisecond,
 	}
-	e.LoadRules(rules)
+	// Load rules, ignoring errors for default rules (they're pre-validated)
+	_ = e.LoadRules(rules)
 	return e
 }
 
