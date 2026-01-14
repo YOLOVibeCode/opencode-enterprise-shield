@@ -1,0 +1,30 @@
+# Build artifacts
+build/
+dist/
+*.tar.gz
+*.zip
+
+# Development
+.git/
+.github/
+.vscode/
+.idea/
+
+# Test files
+*_test.go
+coverage.out
+coverage.html
+
+# Documentation
+*.md
+docs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.swp
+*.swo
+*~
+

@@ -1,0 +1,45 @@
+{
+  "name": "@yourorg/opencode-enterprise-shield",
+  "version": "1.0.0",
+  "description": "Enterprise-grade security plugin for OpenCode AI assistant",
+  "main": ".opencode/plugin.js",
+  "bin": {
+    "enterprise-shield": "bin/enterprise-shield"
+  },
+  "scripts": {
+    "postinstall": "node scripts/download-binary.js",
+    "test": "node .opencode/plugin.js"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "security",
+    "privacy",
+    "compliance",
+    "sanitization",
+    "pii",
+    "enterprise"
+  ],
+  "author": "Your Organization",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourorg/opencode-enterprise-shield.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourorg/opencode-enterprise-shield/issues"
+  },
+  "homepage": "https://github.com/yourorg/opencode-enterprise-shield#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    ".opencode/",
+    "bin/",
+    "scripts/download-binary.js",
+    "config/default.yaml",
+    "README.md",
+    "LICENSE"
+  ]
+}
+

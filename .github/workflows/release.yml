@@ -1,0 +1,189 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: linux
+            arch: amd64
+          - os: linux
+            arch: arm64
+          - os: darwin
+            arch: amd64
+          - os: darwin
+            arch: arm64
+          - os: windows
+            arch: amd64
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      
+      - name: Get version
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+          CGO_ENABLED: 0
+        run: |
+          BINARY_NAME="enterprise-shield-${{ steps.version.outputs.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}"
+          if [ "${{ matrix.os }}" = "windows" ]; then
+            BINARY_NAME="${BINARY_NAME}.exe"
+          fi
+          
+          go build \
+            -ldflags "-X main.version=${{ steps.version.outputs.VERSION }} -X main.buildTime=$(date -u '+%Y-%m-%d_%H:%M:%S')" \
+            -o "dist/${BINARY_NAME}" \
+            ./cmd/plugin
+          
+          # Create tarball (except for Windows)
+          if [ "${{ matrix.os }}" != "windows" ]; then
+            cd dist
+            tar -czf "${BINARY_NAME}.tar.gz" "${BINARY_NAME}"
+            sha256sum "${BINARY_NAME}.tar.gz" > "${BINARY_NAME}.tar.gz.sha256"
+            cd ..
+          else
+            cd dist
+            zip "${BINARY_NAME}.zip" "${BINARY_NAME}"
+            sha256sum "${BINARY_NAME}.zip" > "${BINARY_NAME}.zip.sha256"
+            cd ..
+          fi
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries-${{ matrix.os }}-${{ matrix.arch }}
+          path: dist/*
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: binaries-*
+          merge-multiple: true
+      
+      - name: Generate release notes
+        id: notes
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "## Enterprise Shield ${VERSION}" > release_notes.md
+          echo "" >> release_notes.md
+          echo "### What's New" >> release_notes.md
+          echo "" >> release_notes.md
+          
+          # Extract changelog for this version if it exists
+          if [ -f CHANGELOG.md ]; then
+            awk "/^## \[${VERSION}\]/,/^## \[/" CHANGELOG.md | sed '1d;$d' >> release_notes.md
+          else
+            echo "- Initial release" >> release_notes.md
+          fi
+          
+          echo "" >> release_notes.md
+          echo "### Installation" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "**One-line install:**" >> release_notes.md
+          echo '```bash' >> release_notes.md
+          echo 'curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | bash' >> release_notes.md
+          echo '```' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "**Homebrew:**" >> release_notes.md
+          echo '```bash' >> release_notes.md
+          echo 'brew tap yourorg/opencode-enterprise-shield' >> release_notes.md
+          echo 'brew install enterprise-shield' >> release_notes.md
+          echo '```' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "**Go install:**" >> release_notes.md
+          echo '```bash' >> release_notes.md
+          echo "go install github.com/${{ github.repository }}/cmd/plugin@${VERSION}" >> release_notes.md
+          echo '```' >> release_notes.md
+          echo "" >> release_notes.md
+          echo "### Checksums" >> release_notes.md
+          echo '```' >> release_notes.md
+          cat dist/*.sha256 >> release_notes.md
+          echo '```' >> release_notes.md
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/*.sha256
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Update Homebrew formula
+        run: |
+          # This would trigger a workflow in your homebrew-tap repository
+          # to update the formula with new version and checksums
+          echo "TODO: Trigger homebrew-tap update"
+
+  test:
+    name: Integration Test
+    needs: build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: binaries-*
+          merge-multiple: true
+      
+      - name: Test binary
+        run: |
+          # Find the appropriate binary for this OS
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            BINARY=$(ls dist/enterprise-shield-*-linux-amd64)
+          else
+            BINARY=$(ls dist/enterprise-shield-*-darwin-amd64)
+          fi
+          
+          chmod +x "$BINARY"
+          
+          # Test version command
+          "$BINARY" version
+          
+          # Test scan command
+          "$BINARY" scan "Test content with ServerDB01"
+          
+          echo "✅ Integration test passed"
+

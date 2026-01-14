@@ -1,0 +1,28 @@
+# Build output
+/build/
+/bin/
+
+# Test coverage
+coverage.out
+coverage.html
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go
+vendor/
+
+# Logs
+*.log
+
+# Config with secrets (keep default.yaml)
+config/local.yaml
+config/production.yaml
+

@@ -1,0 +1,89 @@
+# Enterprise Shield Configuration
+# Copy this file to ~/.opencode/config/enterprise-shield.yaml
+
+# Enable/disable the shield
+enabled: true
+
+# Session settings
+session:
+  # Session timeout (Go duration format)
+  ttl: "8h"
+  # Maximum mappings per session
+  maxMappings: 10000
+  # Encrypt session data
+  encryption: true
+
+# Custom sanitization rules
+# These extend the built-in rules
+rules:
+  # Example: Custom server name pattern
+  - ruleId: "custom_server"
+    name: "Custom Server Names"
+    description: "Detects company-specific server naming conventions"
+    pattern: '\b(srv|app|db|web)-[a-z]+-\d{2,4}\b'
+    prefix: "SERVER"
+    severity: "medium"
+    enabled: true
+    order: 100
+  
+  # Example: Custom database pattern
+  - ruleId: "custom_database"
+    name: "Custom Database Names"
+    description: "Detects company-specific database names"
+    pattern: '\b[a-z]+_(dev|staging|prod)_db\b'
+    prefix: "DATABASE"
+    severity: "high"
+    enabled: true
+    order: 101
+
+# Compliance detection settings
+compliance:
+  # Block requests containing critical violations (SSN, credit cards, etc.)
+  blockOnCritical: true
+  
+  # Individual detector settings
+  detectors:
+    - type: "ssn"
+      enabled: true
+      severity: "critical"
+    
+    - type: "credit_card"
+      enabled: true
+      severity: "critical"
+      validateLuhn: true
+    
+    - type: "api_key"
+      enabled: true
+      severity: "critical"
+    
+    - type: "private_key"
+      enabled: true
+      severity: "critical"
+    
+    - type: "password"
+      enabled: true
+      severity: "high"
+
+# Policy settings
+policy:
+  # Default access level for users without specific policies
+  # Options: unrestricted, sanitized_only, blocked
+  defaultAccessLevel: "sanitized_only"
+  
+  # Require authentication
+  requireAuth: true
+
+# Audit logging settings
+audit:
+  # Enable audit logging
+  enabled: true
+  
+  # Log file directory
+  logPath: "~/.opencode/logs/enterprise-shield"
+  
+  # Sign audit entries with Ed25519
+  signEntries: true
+  
+  # Retention period in days
+  retentionDays: 365
+

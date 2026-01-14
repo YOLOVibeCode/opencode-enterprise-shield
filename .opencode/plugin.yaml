@@ -1,0 +1,89 @@
+# OpenCode Plugin Manifest for Enterprise Shield
+# This file allows OpenCode to auto-discover and load the plugin
+
+name: enterprise-shield
+displayName: Enterprise Shield
+version: 1.0.0
+description: Enterprise-grade security plugin that sanitizes sensitive data before sending to LLMs
+author: Your Organization
+homepage: https://github.com/yourorg/opencode-enterprise-shield
+repository: https://github.com/yourorg/opencode-enterprise-shield
+
+# Plugin type and execution
+type: binary
+binary: enterprise-shield
+protocol: stdio  # Communication via stdin/stdout JSON-RPC
+
+# Hooks that this plugin implements
+hooks:
+  # Called before sending request to LLM
+  - name: beforeRequest
+    description: Sanitizes sensitive data in outgoing requests
+    async: true
+  
+  # Called after receiving response from LLM
+  - name: afterResponse
+    description: Restores original values in LLM responses
+    async: true
+  
+  # Custom command for compliance scanning
+  - name: onScan
+    description: Scans content for compliance violations
+    async: true
+
+# Configuration
+config:
+  # Path to config file (relative to user home)
+  configFile: ~/.opencode/config/enterprise-shield.yaml
+  
+  # Auto-create config on first run
+  autoInit: true
+  
+  # Required for plugin to function
+  required: false
+  
+  # Enable by default
+  enabled: true
+
+# Permissions required
+permissions:
+  - filesystem:read    # Read config files
+  - filesystem:write   # Write logs
+  - network:none       # No network access needed
+
+# Categories for OpenCode marketplace
+categories:
+  - security
+  - privacy
+  - compliance
+  - enterprise
+
+# Keywords for discovery
+keywords:
+  - security
+  - sanitization
+  - pii
+  - compliance
+  - hipaa
+  - gdpr
+  - enterprise
+  - data-protection
+
+# Supported LLM providers
+providers:
+  - openai
+  - anthropic
+  - azure-openai
+  - google
+  - ollama
+  - all  # Works with any provider
+
+# Minimum OpenCode version required
+minOpencodeVersion: "0.1.0"
+
+# License
+license: MIT
+
+# Icon (base64 encoded or URL)
+icon: data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aCBkPSJNMTIgMkExMCAxMCAwIDAgMCAyIDEyYTEwIDEwIDAgMCAwIDEwIDEwYTEwIDEwIDAgMCAwIDEwLTEwQTEwIDEwIDAgMCAwIDEyIDJ6bS0yIDEzSDhWOWgybTQgNmgtMlY5aDJtNCA2aC0yVjloMnoiIGZpbGw9IiMyNTYzZWIiLz4KPC9zdmc+
+
