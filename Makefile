@@ -7,9 +7,11 @@ BINARY_NAME=enterprise-shield
 BUILD_DIR=./build
 DIST_DIR=./dist
 CMD_DIR=./cmd/plugin
-VERSION=$(shell git describe --tags --always --dirty 2>/dev/null || echo "dev")
+VERSION=$(shell cat VERSION 2>/dev/null || echo "1.0.0")
+BUILD_NUMBER=$(shell git rev-list --count HEAD 2>/dev/null || echo "0")
 BUILD_TIME=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
-LDFLAGS=-ldflags "-X main.version=$(VERSION) -X main.buildTime=$(BUILD_TIME) -w -s"
+FULL_VERSION=$(VERSION)+build.$(BUILD_NUMBER)
+LDFLAGS=-ldflags "-X main.version=$(FULL_VERSION) -X main.buildNumber=$(BUILD_NUMBER) -X main.buildTime=$(BUILD_TIME) -w -s"
 
 # Go variables
 GOFILES=$(shell find . -name '*.go' -type f)
@@ -128,15 +130,36 @@ docker-push: docker-build
 	docker push yourorg/enterprise-shield:$(VERSION)
 	docker push yourorg/enterprise-shield:latest
 
+## bump-major: Bump major version (breaking changes)
+bump-major:
+	@./scripts/bump-version.sh major
+
+## bump-minor: Bump minor version (new features)
+bump-minor:
+	@./scripts/bump-version.sh minor
+
+## bump-patch: Bump patch version (bug fixes)
+bump-patch:
+	@./scripts/bump-version.sh patch
+
 ## tag: Create a new version tag
 tag:
 	@if [ -z "$(V)" ]; then \
 		echo "Usage: make tag V=1.0.0"; \
+		echo "Or use: make bump-[major|minor|patch]"; \
 		exit 1; \
 	fi
-	@echo "Creating tag v$(V)..."
-	git tag -a "v$(V)" -m "Release v$(V)"
-	@echo "Tag created. Push with: git push origin v$(V)"
+	@echo "$(V)" > VERSION
+	@git add VERSION
+	@git commit -m "chore: Release v$(V)"
+	@git tag -a "v$(V)" -m "Release v$(V)"
+	@echo "Tag created. Push with: git push origin main v$(V)"
+
+## version: Show current version
+version:
+	@echo "Version: $(VERSION)"
+	@echo "Build: $(BUILD_NUMBER)"
+	@echo "Full: $(FULL_VERSION)"
 
 ## changelog: Generate changelog from git commits
 changelog:

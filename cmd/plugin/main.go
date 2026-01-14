@@ -11,9 +11,15 @@ import (
 	"github.com/enterprise/opencode-enterprise-shield/pkg/types"
 )
 
+var (
+	// Set via ldflags at build time
+	version     = "dev"
+	buildNumber = "0"
+	buildTime   = "unknown"
+)
+
 const (
 	configPath = "~/.opencode/config/enterprise-shield.yaml"
-	version    = "1.0.0"
 )
 
 // Plugin represents the Enterprise Shield plugin.
@@ -68,6 +74,12 @@ func main() {
 	switch command {
 	case "version":
 		fmt.Printf("Enterprise Shield Plugin v%s\n", version)
+		if buildNumber != "0" {
+			fmt.Printf("Build: #%s\n", buildNumber)
+		}
+		if buildTime != "unknown" {
+			fmt.Printf("Built: %s\n", buildTime)
+		}
 
 	case "init":
 		// Initialize configuration
