@@ -177,18 +177,27 @@ TOTAL ONGOING COST:                                 ~$200/year in labor
 
 ### Method 1: One-Line Install (Recommended) ⭐
 
+**🍎 macOS / 🐧 Linux:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/opencode-enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/opencode-enterprise-shield/main/install-complete.sh | bash
+```
+
+**🪟 Windows (PowerShell):**
+```powershell
+iwr -useb https://raw.githubusercontent.com/YOLOVibeCode/opencode-enterprise-shield/main/install-windows.ps1 | iex
 ```
 
 **What this does:**
-- ✅ Auto-detects your OS (macOS/Linux/Windows) and architecture (amd64/arm64)
+- ✅ Installs **both** OpenCode and Enterprise Shield
+- ✅ Auto-detects your OS and architecture (amd64/arm64)
 - ✅ Downloads correct binary from GitHub releases
 - ✅ Verifies SHA256 checksum for security
 - ✅ Installs to `~/.opencode/plugins/enterprise-shield`
-- ✅ Creates default configuration at `~/.opencode/config/enterprise-shield.yaml`
-- ✅ Adds to PATH (optional)
-- ✅ Runs health check
+- ✅ Creates default configuration
+- ✅ **Runs 8 protection tests** to prove it works
+- ✅ Adds to PATH automatically
+
+**Time:** 2-3 minutes | **Result:** Working installation with proof of protection
 
 ### Method 2: Homebrew (macOS/Linux) ⭐
 
@@ -269,19 +278,33 @@ enterprise-shield init
 
 ### Verify Installation
 
+**All Platforms:**
+
 ```bash
 # Check version
 enterprise-shield version
-# Output: Enterprise Shield Plugin v1.0.0
+# Output: Enterprise Shield Plugin v1.0.1
 
 # Test compliance scanner
 enterprise-shield scan "Test with SSN: 123-45-6789"
 # Should show critical violation detected
 
-# Test sanitization
-enterprise-shield process test@example.com "Query ServerDB01" openai
-# Should show sanitized output
+# Run full protection test suite (8 tests)
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/opencode-enterprise-shield/main/test-protection.sh | bash
+# Expected: 8/8 tests PASSED ✅
 ```
+
+**Windows (PowerShell):**
+
+```powershell
+# Check version
+enterprise-shield version
+
+# Test scanner
+enterprise-shield scan "Test with SSN: 123-45-6789"
+```
+
+**See:** `WINDOWS_INSTALLATION.md` for Windows-specific guide
 
 ---
 
