@@ -1,0 +1,267 @@
+name: Main Branch CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        go: ['1.22']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+      
+      - name: Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/go/pkg/mod
+            ~/.cache/go-build
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      
+      - name: Download dependencies
+        run: go mod download
+      
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.out ./...
+      
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest'
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.out
+          flags: unittests
+      
+      - name: Run linter
+        if: matrix.os == 'ubuntu-latest'
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          args: --timeout=5m
+
+  build:
+    name: Build Development Binaries
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    strategy:
+      matrix:
+        include:
+          - os: linux
+            arch: amd64
+          - os: linux
+            arch: arm64
+          - os: darwin
+            arch: amd64
+          - os: darwin
+            arch: arm64
+          - os: windows
+            arch: amd64
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      
+      - name: Get short SHA
+        id: sha
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+          CGO_ENABLED: 0
+        run: |
+          VERSION="dev-${{ steps.sha.outputs.SHORT_SHA }}"
+          BINARY_NAME="enterprise-shield-${VERSION}-${{ matrix.os }}-${{ matrix.arch }}"
+          
+          if [ "${{ matrix.os }}" = "windows" ]; then
+            BINARY_NAME="${BINARY_NAME}.exe"
+          fi
+          
+          mkdir -p dist
+          
+          go build \
+            -ldflags "-X main.version=${VERSION} -X main.buildTime=$(date -u '+%Y-%m-%d_%H:%M:%S') -w -s" \
+            -o "dist/${BINARY_NAME}" \
+            ./cmd/plugin
+          
+          # Create archive
+          cd dist
+          if [ "${{ matrix.os }}" = "windows" ]; then
+            zip "${BINARY_NAME}.zip" "${BINARY_NAME}"
+            sha256sum "${BINARY_NAME}.zip" > "${BINARY_NAME}.zip.sha256"
+          else
+            tar -czf "${BINARY_NAME}.tar.gz" "${BINARY_NAME}"
+            sha256sum "${BINARY_NAME}.tar.gz" > "${BINARY_NAME}.tar.gz.sha256"
+          fi
+          cd ..
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: binaries-${{ matrix.os }}-${{ matrix.arch }}
+          path: dist/*
+          retention-days: 30
+
+  create-dev-release:
+    name: Create Development Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: binaries-*
+          merge-multiple: true
+      
+      - name: Get short SHA
+        id: sha
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      
+      - name: Delete existing dev release
+        continue-on-error: true
+        run: |
+          gh release delete dev --yes
+          git push origin :refs/tags/dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create/Update development release
+        run: |
+          VERSION="dev-${{ steps.sha.outputs.SHORT_SHA }}"
+          
+          # Generate release notes
+          cat > release_notes.md << 'EOF'
+          ## 🚧 Development Build
+          
+          **This is an automated development build from the main branch.**
+          
+          - **Commit**: ${{ github.sha }}
+          - **Short SHA**: ${{ steps.sha.outputs.SHORT_SHA }}
+          - **Build Date**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          
+          ### ⚠️ Warning
+          
+          This is a **development build** and may be unstable. For production use, download a [stable release](https://github.com/${{ github.repository }}/releases/latest).
+          
+          ### 📦 Installation
+          
+          **One-line install (dev version):**
+          ```bash
+          curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | VERSION=dev bash
+          ```
+          
+          **Manual download:**
+          Download the appropriate binary for your platform below.
+          
+          ### 📋 Recent Changes
+          
+          $(git log --pretty=format:"- %s (%h)" -10)
+          
+          ### 🔐 Checksums
+          
+          ```
+          $(cat dist/*.sha256 2>/dev/null || echo "Checksums will be available after build completes")
+          ```
+          EOF
+          
+          # Create release
+          gh release create dev \
+            --title "Development Build (${VERSION})" \
+            --notes-file release_notes.md \
+            --prerelease \
+            --target main \
+            dist/*.tar.gz dist/*.zip dist/*.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Update dev tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -f dev
+          git push -f origin dev
+
+  update-homebrew:
+    name: Update Homebrew Formula
+    needs: create-dev-release
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Get checksums
+        id: checksums
+        run: |
+          # Download checksums from the dev release
+          gh release download dev --pattern "*.sha256" --dir /tmp
+          
+          # Extract checksums
+          DARWIN_AMD64=$(grep "darwin-amd64.tar.gz" /tmp/*.sha256 | awk '{print $1}' || echo "PENDING")
+          DARWIN_ARM64=$(grep "darwin-arm64.tar.gz" /tmp/*.sha256 | awk '{print $1}' || echo "PENDING")
+          LINUX_AMD64=$(grep "linux-amd64.tar.gz" /tmp/*.sha256 | awk '{print $1}' || echo "PENDING")
+          LINUX_ARM64=$(grep "linux-arm64.tar.gz" /tmp/*.sha256 | awk '{print $1}' || echo "PENDING")
+          
+          echo "darwin_amd64=${DARWIN_AMD64}" >> $GITHUB_OUTPUT
+          echo "darwin_arm64=${DARWIN_ARM64}" >> $GITHUB_OUTPUT
+          echo "linux_amd64=${LINUX_AMD64}" >> $GITHUB_OUTPUT
+          echo "linux_arm64=${LINUX_ARM64}" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Note
+        run: |
+          echo "✅ Development binaries are now available"
+          echo "📦 Download from: https://github.com/${{ github.repository }}/releases/tag/dev"
+          echo ""
+          echo "Users can install with:"
+          echo "  curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh | VERSION=dev bash"
+
+  notify:
+    name: Notify Success
+    needs: [test, build, create-dev-release]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Success notification
+        run: |
+          echo "::notice::✅ Main branch updated successfully"
+          echo "::notice::📦 Development binaries available at: https://github.com/${{ github.repository }}/releases/tag/dev"
+          echo "::notice::🧪 All tests passed"
+          echo "::notice::🚀 Ready for distribution via all channels"
+

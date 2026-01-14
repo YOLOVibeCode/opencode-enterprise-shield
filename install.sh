@@ -69,11 +69,19 @@ get_download_url() {
     local version=$3
     
     if [ "$version" = "latest" ]; then
-        # Get latest release version
+        # Get latest stable release version
         version=$(curl -s "https://api.github.com/repos/${REPO}/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ -z "$version" ]; then
-            log_warn "Could not fetch latest version, using v1.0.0"
-            version="v1.0.0"
+            log_warn "Could not fetch latest version, trying dev release"
+            version="dev"
+        fi
+    fi
+    
+    if [ "$version" = "dev" ]; then
+        # Get latest commit SHA for dev builds
+        local sha=$(curl -s "https://api.github.com/repos/${REPO}/commits/main" | grep '"sha":' | head -1 | sed -E 's/.*"([^"]+)".*/\1/' | cut -c1-7)
+        if [ -n "$sha" ]; then
+            version="dev-${sha}"
         fi
     fi
     
@@ -82,7 +90,13 @@ get_download_url() {
         filename="${filename}.exe"
     fi
     
-    echo "https://github.com/${REPO}/releases/download/${version}/${filename}"
+    # Determine which release tag to use
+    local release_tag="$version"
+    if [[ "$version" == dev-* ]]; then
+        release_tag="dev"
+    fi
+    
+    echo "https://github.com/${REPO}/releases/download/${release_tag}/${filename}"
 }
 
 check_dependencies() {
@@ -114,12 +128,25 @@ download_binary() {
     
     if ! curl -fsSL "$url" -o "$output"; then
         log_error "Failed to download binary"
-        log_info "Note: If this is a new project, releases may not exist yet."
-        log_info "You can build from source instead:"
-        log_info "  git clone ${GITHUB_URL}"
-        log_info "  cd opencode-enterprise-shield"
-        log_info "  make install"
-        exit 1
+        
+        # If stable release failed, try dev release
+        if [[ "$VERSION" != "dev" ]]; then
+            log_warn "Stable release not found, trying development build..."
+            VERSION="dev"
+            url=$(get_download_url "$OS" "$ARCH" "$VERSION")
+            log_info "Downloading from: $url"
+            
+            if ! curl -fsSL "$url" -o "$output"; then
+                log_error "Development build also failed"
+                log_info "You can build from source instead:"
+                log_info "  git clone ${GITHUB_URL}"
+                log_info "  cd opencode-enterprise-shield"
+                log_info "  make install"
+                exit 1
+            fi
+        else
+            exit 1
+        fi
     fi
     
     chmod +x "$output"
