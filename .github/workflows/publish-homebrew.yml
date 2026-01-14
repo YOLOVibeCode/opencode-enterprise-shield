@@ -1,0 +1,154 @@
+name: Update Homebrew Formula
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to update formula for (e.g., v1.0.0)'
+        required: true
+
+jobs:
+  update-formula:
+    name: Update Homebrew Formula
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.release.tag_name, 'v') || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v4
+      
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${{ github.event.release.tag_name }}"
+          fi
+          
+          # Remove 'v' prefix
+          VERSION_NUMBER="${VERSION#v}"
+          
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version_number=${VERSION_NUMBER}" >> $GITHUB_OUTPUT
+          echo "Updating formula for version: ${VERSION}"
+      
+      - name: Download release checksums
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          REPO="${{ github.repository }}"
+          
+          echo "Downloading checksums from release ${VERSION}..."
+          
+          # Download checksums file
+          curl -fsSL "https://github.com/${REPO}/releases/download/${VERSION}/checksums-all.txt" \
+            -o /tmp/checksums.txt
+          
+          echo "Checksums downloaded:"
+          cat /tmp/checksums.txt
+      
+      - name: Extract checksums
+        id: checksums
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          # Extract SHA256 for each platform
+          DARWIN_AMD64=$(grep "${VERSION}-darwin-amd64.tar.gz" /tmp/checksums.txt | head -1 | awk '{print $1}')
+          DARWIN_ARM64=$(grep "${VERSION}-darwin-arm64.tar.gz" /tmp/checksums.txt | head -1 | awk '{print $1}')
+          LINUX_AMD64=$(grep "${VERSION}-linux-amd64.tar.gz" /tmp/checksums.txt | head -1 | awk '{print $1}')
+          LINUX_ARM64=$(grep "${VERSION}-linux-arm64.tar.gz" /tmp/checksums.txt | head -1 | awk '{print $1}')
+          
+          echo "darwin_amd64=${DARWIN_AMD64}" >> $GITHUB_OUTPUT
+          echo "darwin_arm64=${DARWIN_ARM64}" >> $GITHUB_OUTPUT
+          echo "linux_amd64=${LINUX_AMD64}" >> $GITHUB_OUTPUT
+          echo "linux_arm64=${LINUX_ARM64}" >> $GITHUB_OUTPUT
+          
+          echo "Checksums extracted:"
+          echo "  darwin-amd64: ${DARWIN_AMD64}"
+          echo "  darwin-arm64: ${DARWIN_ARM64}"
+          echo "  linux-amd64:  ${LINUX_AMD64}"
+          echo "  linux-arm64:  ${LINUX_ARM64}"
+      
+      - name: Checkout Homebrew tap
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/homebrew-opencode-enterprise-shield
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN || secrets.GITHUB_TOKEN }}
+          path: homebrew-tap
+      
+      - name: Update formula
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          VERSION_NUMBER="${{ steps.version.outputs.version_number }}"
+          REPO="${{ github.repository }}"
+          
+          FORMULA_FILE="homebrew-tap/Formula/enterprise-shield.rb"
+          
+          echo "Updating formula at: ${FORMULA_FILE}"
+          
+          # Update version
+          sed -i "s/version \".*\"/version \"${VERSION_NUMBER}\"/" "${FORMULA_FILE}"
+          
+          # Update URLs
+          sed -i "s|/releases/download/v[0-9.]\+/|/releases/download/${VERSION}/|g" "${FORMULA_FILE}"
+          
+          # Update checksums (using placeholder comments as markers)
+          sed -i "s|sha256 \"[^\"]*\" # darwin-amd64|sha256 \"${{ steps.checksums.outputs.darwin_amd64 }}\" # darwin-amd64|" "${FORMULA_FILE}"
+          sed -i "s|sha256 \"[^\"]*\" # darwin-arm64|sha256 \"${{ steps.checksums.outputs.darwin_arm64 }}\" # darwin-arm64|" "${FORMULA_FILE}"
+          sed -i "s|sha256 \"[^\"]*\" # linux-amd64|sha256 \"${{ steps.checksums.outputs.linux_amd64 }}\" # linux-amd64|" "${FORMULA_FILE}"
+          sed -i "s|sha256 \"[^\"]*\" # linux-arm64|sha256 \"${{ steps.checksums.outputs.linux_arm64 }}\" # linux-arm64|" "${FORMULA_FILE}"
+          
+          echo "Formula updated. Changes:"
+          cd homebrew-tap
+          git diff Formula/enterprise-shield.rb
+      
+      - name: Commit and push to tap
+        run: |
+          cd homebrew-tap
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add Formula/enterprise-shield.rb
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          git commit -m "Update enterprise-shield to ${{ steps.version.outputs.version }}"
+          git push
+          
+          echo "✅ Homebrew formula updated successfully!"
+      
+      - name: Test formula
+        run: |
+          cd homebrew-tap
+          
+          # Audit formula
+          brew audit --formula Formula/enterprise-shield.rb || true
+          
+          echo "Formula update complete!"
+      
+      - name: Summary
+        run: |
+          echo "### 🍺 Homebrew Formula Updated!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Info | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Version** | ${{ steps.version.outputs.version }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Repository** | ${{ github.repository_owner }}/homebrew-opencode-enterprise-shield |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Users can now install with:**" >> $GITHUB_STEP_SUMMARY
+          echo '```bash' >> $GITHUB_STEP_SUMMARY
+          echo "brew upgrade enterprise-shield" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Checksums:**" >> $GITHUB_STEP_SUMMARY
+          echo "- darwin-amd64: \`${{ steps.checksums.outputs.darwin_amd64 }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- darwin-arm64: \`${{ steps.checksums.outputs.darwin_arm64 }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- linux-amd64: \`${{ steps.checksums.outputs.linux_amd64 }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- linux-arm64: \`${{ steps.checksums.outputs.linux_arm64 }}\`" >> $GITHUB_STEP_SUMMARY
+

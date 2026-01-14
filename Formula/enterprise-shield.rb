@@ -7,20 +7,20 @@ class EnterpriseShield < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-darwin-arm64.tar.gz"
-      sha256 "REPLACE_WITH_ACTUAL_SHA256_ARM64"
+      sha256 "PLACEHOLDER_DARWIN_ARM64" # darwin-arm64
     else
       url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-darwin-amd64.tar.gz"
-      sha256 "REPLACE_WITH_ACTUAL_SHA256_AMD64"
+      sha256 "PLACEHOLDER_DARWIN_AMD64" # darwin-amd64
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-linux-arm64.tar.gz"
-      sha256 "REPLACE_WITH_ACTUAL_SHA256_LINUX_ARM64"
+      sha256 "PLACEHOLDER_LINUX_ARM64" # linux-arm64
     else
       url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-linux-amd64.tar.gz"
-      sha256 "REPLACE_WITH_ACTUAL_SHA256_LINUX_AMD64"
+      sha256 "PLACEHOLDER_LINUX_AMD64" # linux-amd64
     end
   end
 

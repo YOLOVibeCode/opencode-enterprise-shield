@@ -1,0 +1,51 @@
+# Source code (Go)
+pkg/
+cmd/
+*.go
+go.mod
+go.sum
+VERSION
+
+# Build artifacts
+build/
+dist/
+
+# Tests
+*_test.go
+coverage.out
+coverage.html
+
+# CI/CD
+.github/
+.git/
+.gitignore
+
+# Documentation (keep README.md)
+docs/
+COMPLETE_*.md
+DISTRIBUTION*.md
+AUTOMATED_*.md
+FINAL_*.md
+READY_*.md
+AUTO_VERSIONING*.md
+
+# Scripts (keep download-binary.js)
+scripts/build-release.sh
+scripts/test-install.sh
+scripts/update-homebrew-formula.sh
+scripts/bump-version.sh
+
+# Development
+Makefile
+Dockerfile
+.dockerignore
+*.sh
+install.sh
+uninstall.sh
+
+# Homebrew
+Formula/
+
+# Config (will be installed via postinstall)
+# Keep config/default.yaml
+

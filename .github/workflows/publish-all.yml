@@ -1,0 +1,61 @@
+name: Publish to All Channels
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish-homebrew:
+    name: Publish to Homebrew
+    uses: ./.github/workflows/publish-homebrew.yml
+    secrets: inherit
+    if: startsWith(github.event.release.tag_name, 'v')
+  
+  publish-npm:
+    name: Publish to NPM
+    uses: ./.github/workflows/publish-npm.yml
+    secrets: inherit
+    if: startsWith(github.event.release.tag_name, 'v')
+  
+  publish-summary:
+    name: Publish Summary
+    needs: [publish-homebrew, publish-npm]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Summary
+        run: |
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION_NUMBER="${VERSION#v}"
+          
+          echo "### 🚀 Release ${VERSION} Published to All Channels!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Channel | Status | Install Command |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|--------|-----------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **GitHub Releases** | ✅ Auto | Download from [releases](https://github.com/${{ github.repository }}/releases/tag/${VERSION}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Docker** | ✅ Auto | \`docker pull ghcr.io/${{ github.repository }}:${VERSION_NUMBER}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Go Install** | ✅ Auto | \`go install github.com/${{ github.repository }}/cmd/plugin@${VERSION}\` |" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.publish-homebrew.result }}" = "success" ]; then
+            echo "| **Homebrew** | ✅ Published | \`brew upgrade enterprise-shield\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| **Homebrew** | ⚠️ ${{ needs.publish-homebrew.result }} | See workflow logs |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ needs.publish-npm.result }}" = "success" ]; then
+            echo "| **NPM** | ✅ Published | \`npm install -g @${{ github.repository_owner }}/opencode-enterprise-shield\` |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| **NPM** | ⚠️ ${{ needs.publish-npm.result }} | See workflow logs |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "| **Install Script** | ✅ Auto | \`curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/install.sh \\| bash\` |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Distribution Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All automated distribution channels have been updated!" >> $GITHUB_STEP_SUMMARY
+
