@@ -13,7 +13,7 @@ Your Enterprise Shield plugin now has **EVERY** distribution method ready to go!
 
 **Usage:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 ```
 
 **Features:**
@@ -40,7 +40,7 @@ curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/insta
 
 **User Install:**
 ```bash
-brew tap yourorg/opencode-enterprise-shield
+brew tap YOLOVibeCode/opencode-enterprise-shield
 brew install enterprise-shield
 ```
 
@@ -124,7 +124,7 @@ make changelog                  # Generate changelog
 make docker-build
 
 # Run
-docker run -v ~/.opencode:/root/.opencode yourorg/enterprise-shield:latest
+docker run -v ~/.opencode:/root/.opencode YOLOVibeCode/enterprise-shield:latest
 
 # Deploy to registry
 make docker-push
@@ -150,7 +150,7 @@ npm publish --access public
 
 **User Install:**
 ```bash
-npm install -g @yourorg/opencode-enterprise-shield
+npm install -g @YOLOVibeCode/opencode-enterprise-shield
 ```
 
 **Features:**
@@ -165,7 +165,7 @@ Already working!
 
 **User Install:**
 ```bash
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@latest
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@latest
 ```
 
 ---
@@ -188,7 +188,7 @@ cd /Users/admin/Dev/YOLOProjects/opencode-enterprise-shield
 git init
 git add .
 git commit -m "Initial commit: Enterprise Shield v1.0.0"
-git remote add origin https://github.com/yourorg/opencode-enterprise-shield
+git remote add origin https://github.com/YOLOVibeCode/opencode-enterprise-shield
 git push -u origin main
 ```
 
@@ -200,7 +200,7 @@ cp ../opencode-enterprise-shield/Formula/enterprise-shield.rb Formula/
 git init
 git add .
 git commit -m "Initial formula"
-git remote add origin https://github.com/yourorg/homebrew-opencode-enterprise-shield
+git remote add origin https://github.com/YOLOVibeCode/homebrew-opencode-enterprise-shield
 git push -u origin main
 ```
 
@@ -244,7 +244,7 @@ When you're ready to distribute:
 - [x] Documentation complete
 - [x] Build scripts tested
 - [x] Install scripts tested
-- [ ] Replace `yourorg` with actual GitHub org in all files
+- [ ] Replace `YOLOVibeCode` with actual GitHub org in all files
 - [ ] Update repository URLs
 - [ ] Add LICENSE file
 
@@ -262,14 +262,14 @@ When you're ready to distribute:
 - [ ] Test installation:
   ```bash
   # Test install script
-  curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+  curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
   
   # Test Homebrew
-  brew tap yourorg/opencode-enterprise-shield
+  brew tap YOLOVibeCode/opencode-enterprise-shield
   brew install enterprise-shield
   
   # Test Go install
-  go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@latest
+  go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@latest
   ```
 - [ ] Update README with installation instructions
 - [ ] Announce release
@@ -301,27 +301,27 @@ make release
 
 **Easiest (one command):**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 ```
 
 **Homebrew:**
 ```bash
-brew tap yourorg/opencode-enterprise-shield && brew install enterprise-shield
+brew tap YOLOVibeCode/opencode-enterprise-shield && brew install enterprise-shield
 ```
 
 **Go:**
 ```bash
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@latest
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@latest
 ```
 
 **NPM:**
 ```bash
-npm install -g @yourorg/opencode-enterprise-shield
+npm install -g @YOLOVibeCode/opencode-enterprise-shield
 ```
 
 **Docker:**
 ```bash
-docker pull yourorg/enterprise-shield:latest
+docker pull YOLOVibeCode/enterprise-shield:latest
 ```
 
 ---
@@ -380,7 +380,7 @@ You now have a **production-ready, enterprise-grade plugin** with:
 **Next step:** Push to GitHub and create your first release!
 
 ```bash
-git remote add origin https://github.com/yourorg/opencode-enterprise-shield
+git remote add origin https://github.com/YOLOVibeCode/opencode-enterprise-shield
 git push -u origin main
 make tag V=1.0.0
 git push origin v1.0.0

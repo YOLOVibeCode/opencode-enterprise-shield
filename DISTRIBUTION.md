@@ -10,7 +10,7 @@ Complete guide for distributing and installing Enterprise Shield across all plat
 
 **For users:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/opencode-enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/opencode-enterprise-shield/main/install.sh | bash
 ```
 
 **Features:**
@@ -24,7 +24,7 @@ curl -sSL https://raw.githubusercontent.com/yourorg/opencode-enterprise-shield/m
 
 **Uninstall:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/opencode-enterprise-shield/main/uninstall.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/opencode-enterprise-shield/main/uninstall.sh | bash
 ```
 
 ---
@@ -47,7 +47,7 @@ cat > README.md << 'EOF'
 ## Installation
 
 ```bash
-brew tap yourorg/opencode-enterprise-shield
+brew tap YOLOVibeCode/opencode-enterprise-shield
 brew install enterprise-shield
 ```
 
@@ -63,14 +63,14 @@ EOF
 git init
 git add .
 git commit -m "Initial formula"
-git remote add origin https://github.com/yourorg/homebrew-opencode-enterprise-shield
+git remote add origin https://github.com/YOLOVibeCode/homebrew-opencode-enterprise-shield
 git push -u origin main
 ```
 
 **For users:**
 ```bash
 # Install
-brew tap yourorg/opencode-enterprise-shield
+brew tap YOLOVibeCode/opencode-enterprise-shield
 brew install enterprise-shield
 
 # Update
@@ -78,7 +78,7 @@ brew upgrade enterprise-shield
 
 # Uninstall
 brew uninstall enterprise-shield
-brew untap yourorg/opencode-enterprise-shield
+brew untap YOLOVibeCode/opencode-enterprise-shield
 ```
 
 **Updating Formula After Release:**
@@ -99,10 +99,10 @@ brew untap yourorg/opencode-enterprise-shield
 **For users:**
 ```bash
 # Install latest
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@latest
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@latest
 
 # Install specific version
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@v1.0.0
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@v1.0.0
 
 # The binary will be in $GOPATH/bin or $HOME/go/bin
 # Symlink to OpenCode plugins directory
@@ -125,10 +125,10 @@ VERSION=v1.0.0
 OS=darwin  # or linux, windows
 ARCH=arm64 # or amd64
 
-wget https://github.com/yourorg/opencode-enterprise-shield/releases/download/${VERSION}/enterprise-shield-${VERSION}-${OS}-${ARCH}.tar.gz
+wget https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/download/${VERSION}/enterprise-shield-${VERSION}-${OS}-${ARCH}.tar.gz
 
 # 2. Verify checksum
-wget https://github.com/yourorg/opencode-enterprise-shield/releases/download/${VERSION}/enterprise-shield-${VERSION}-${OS}-${ARCH}.tar.gz.sha256
+wget https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/download/${VERSION}/enterprise-shield-${VERSION}-${OS}-${ARCH}.tar.gz.sha256
 sha256sum -c enterprise-shield-${VERSION}-${OS}-${ARCH}.tar.gz.sha256
 
 # 3. Extract
@@ -162,8 +162,8 @@ CMD ["serve"]
 
 **For users:**
 ```bash
-docker pull yourorg/enterprise-shield:latest
-docker run -v ~/.opencode:/root/.opencode yourorg/enterprise-shield:latest
+docker pull YOLOVibeCode/enterprise-shield:latest
+docker run -v ~/.opencode:/root/.opencode YOLOVibeCode/enterprise-shield:latest
 ```
 
 ---
@@ -173,7 +173,7 @@ docker run -v ~/.opencode:/root/.opencode yourorg/enterprise-shield:latest
 **Package.json:**
 ```json
 {
-  "name": "@yourorg/opencode-enterprise-shield",
+  "name": "@YOLOVibeCode/opencode-enterprise-shield",
   "version": "1.0.0",
   "description": "Enterprise Shield plugin for OpenCode",
   "main": ".opencode/plugin.js",
@@ -188,7 +188,7 @@ docker run -v ~/.opencode:/root/.opencode yourorg/enterprise-shield:latest
 
 **For users:**
 ```bash
-npm install -g @yourorg/opencode-enterprise-shield
+npm install -g @YOLOVibeCode/opencode-enterprise-shield
 ```
 
 ---
@@ -352,18 +352,18 @@ Before releasing a new version:
 
 | Location | URL | Purpose |
 |----------|-----|---------|
-| GitHub Releases | `github.com/yourorg/opencode-enterprise-shield/releases` | Primary distribution |
-| Homebrew Tap | `github.com/yourorg/homebrew-opencode-enterprise-shield` | macOS/Linux package manager |
-| NPM Registry | `npmjs.com/package/@yourorg/opencode-enterprise-shield` | Node/OpenCode native |
-| Docker Hub | `hub.docker.com/r/yourorg/enterprise-shield` | Container distribution |
-| Go Packages | `pkg.go.dev/github.com/yourorg/opencode-enterprise-shield` | Go module repository |
+| GitHub Releases | `github.com/YOLOVibeCode/opencode-enterprise-shield/releases` | Primary distribution |
+| Homebrew Tap | `github.com/YOLOVibeCode/homebrew-opencode-enterprise-shield` | macOS/Linux package manager |
+| NPM Registry | `npmjs.com/package/@YOLOVibeCode/opencode-enterprise-shield` | Node/OpenCode native |
+| Docker Hub | `hub.docker.com/r/YOLOVibeCode/enterprise-shield` | Container distribution |
+| Go Packages | `pkg.go.dev/github.com/YOLOVibeCode/opencode-enterprise-shield` | Go module repository |
 
 ---
 
 ## 📞 Support
 
 For distribution issues:
-- GitHub Issues: https://github.com/yourorg/opencode-enterprise-shield/issues
-- Documentation: https://github.com/yourorg/opencode-enterprise-shield
-- Email: support@yourorg.com
+- GitHub Issues: https://github.com/YOLOVibeCode/opencode-enterprise-shield/issues
+- Documentation: https://github.com/YOLOVibeCode/opencode-enterprise-shield
+- Email: support@YOLOVibeCode.com
 

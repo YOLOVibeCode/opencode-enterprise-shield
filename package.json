@@ -1,5 +1,5 @@
 {
-  "name": "@yourorg/opencode-enterprise-shield",
+  "name": "@YOLOVibeCode/opencode-enterprise-shield",
   "version": "1.0.0",
   "description": "Enterprise-grade security plugin for OpenCode AI assistant - automatically sanitizes sensitive data",
   "main": ".opencode/plugin.js",
@@ -29,16 +29,16 @@
     "ai-security",
     "llm-security"
   ],
-  "author": "Your Organization <opensource@yourorg.com>",
+  "author": "Your Organization <opensource@YOLOVibeCode.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourorg/opencode-enterprise-shield.git"
+    "url": "https://github.com/YOLOVibeCode/opencode-enterprise-shield.git"
   },
   "bugs": {
-    "url": "https://github.com/yourorg/opencode-enterprise-shield/issues"
+    "url": "https://github.com/YOLOVibeCode/opencode-enterprise-shield/issues"
   },
-  "homepage": "https://github.com/yourorg/opencode-enterprise-shield#readme",
+  "homepage": "https://github.com/YOLOVibeCode/opencode-enterprise-shield#readme",
   "engines": {
     "node": ">=14.0.0"
   },

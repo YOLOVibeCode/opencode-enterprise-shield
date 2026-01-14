@@ -52,27 +52,27 @@
 
 ✅ **Method 1: One-Line Install**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 ```
 
 ✅ **Method 2: Homebrew**
 ```bash
-brew tap yourorg/opencode-enterprise-shield && brew install enterprise-shield
+brew tap YOLOVibeCode/opencode-enterprise-shield && brew install enterprise-shield
 ```
 
 ✅ **Method 3: Go Install**
 ```bash
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@latest
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@latest
 ```
 
 ✅ **Method 4: NPM**
 ```bash
-npm install -g @yourorg/opencode-enterprise-shield
+npm install -g @YOLOVibeCode/opencode-enterprise-shield
 ```
 
 ✅ **Method 5: Docker**
 ```bash
-docker pull yourorg/enterprise-shield:latest
+docker pull YOLOVibeCode/enterprise-shield:latest
 ```
 
 ✅ **Method 6: Manual Download**
@@ -131,13 +131,13 @@ docker pull yourorg/enterprise-shield:latest
 
 ### Step 1: Update Repository URLs (Required)
 
-Replace `yourorg` with your actual GitHub organization:
+Replace `YOLOVibeCode` with your actual GitHub organization:
 
 ```bash
 cd /Users/admin/Dev/YOLOProjects/opencode-enterprise-shield
 
 # Update all references
-find . -type f -not -path "./.git/*" -exec sed -i '' 's/yourorg/YOUR_ACTUAL_ORG/g' {} +
+find . -type f -not -path "./.git/*" -exec sed -i '' 's/YOLOVibeCode/YOUR_ACTUAL_ORG/g' {} +
 
 # Commit the changes
 git add -A
@@ -210,7 +210,7 @@ make docker-push
 
 ### Required
 
-- [ ] Replace `yourorg` with actual GitHub organization in all files
+- [ ] Replace `YOLOVibeCode` with actual GitHub organization in all files
 - [ ] Create GitHub repository
 - [ ] Push code to GitHub
 - [ ] Create v1.0.0 tag
@@ -389,7 +389,7 @@ curl -sSL https://raw.githubusercontent.com/YOUR_ORG/enterprise-shield/main/inst
 ```bash
 # 1. Update org name
 cd /Users/admin/Dev/YOLOProjects/opencode-enterprise-shield
-find . -type f -not -path "./.git/*" -exec sed -i '' 's/yourorg/YOUR_ORG/g' {} +
+find . -type f -not -path "./.git/*" -exec sed -i '' 's/YOLOVibeCode/YOUR_ORG/g' {} +
 git add -A && git commit -m "chore: Update repository URLs"
 
 # 2. Push to GitHub

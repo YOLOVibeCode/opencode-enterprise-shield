@@ -179,7 +179,7 @@ $ git push origin main
 [Step 6] Build Docker (1 min)
 ├─ Multi-arch: linux/amd64, linux/arm64
 ├─ Tags: dev, latest, build-42, 1.1.0
-├─ Push to: ghcr.io/yourorg/opencode-enterprise-shield
+├─ Push to: ghcr.io/YOLOVibeCode/opencode-enterprise-shield
 └─ Labels: version, build number, commit SHA
 
 ✅ COMPLETE - All channels updated!
@@ -189,7 +189,7 @@ $ git push origin main
 
 ```bash
 # Install latest (within 5 minutes of your push)
-$ curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+$ curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 
 Downloading: enterprise-shield-1.1.0+build.42-darwin-arm64.tar.gz
 ✓ Verified checksum
@@ -240,8 +240,8 @@ Git Status:
 ```bash
 cd /Users/admin/Dev/YOLOProjects/opencode-enterprise-shield
 
-# Update organization name (replace 'yourorg')
-find . -type f -not -path "./.git/*" -exec sed -i '' 's/yourorg/YOUR_ORG/g' {} +
+# Update organization name (replace 'YOLOVibeCode')
+find . -type f -not -path "./.git/*" -exec sed -i '' 's/YOLOVibeCode/YOUR_ORG/g' {} +
 git commit -am "chore: Update repository URLs"
 
 # Push to GitHub
@@ -463,7 +463,7 @@ Git:
 
 ```bash
 # 1. Update organization name
-find . -type f -not -path "./.git/*" -exec sed -i '' 's/yourorg/YOUR_ORG/g' {} +
+find . -type f -not -path "./.git/*" -exec sed -i '' 's/YOLOVibeCode/YOUR_ORG/g' {} +
 git commit -am "chore: Update repository URLs"
 
 # 2. Push (creates Build #1)

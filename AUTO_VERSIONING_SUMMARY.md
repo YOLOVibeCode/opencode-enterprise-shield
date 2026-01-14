@@ -310,7 +310,7 @@ Total time: ~5 minutes
 
 ```bash
 # Immediately available (within 5 minutes of push)
-$ curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+$ curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 
 Downloading: enterprise-shield-1.1.0+build.42-darwin-arm64.tar.gz
 ✓ Downloaded
@@ -343,10 +343,10 @@ Built: 2026-01-14_03:15:30
 
 **Tags created for build 42 with version 1.0.0:**
 ```
-ghcr.io/yourorg/opencode-enterprise-shield:dev          # Latest dev
-ghcr.io/yourorg/opencode-enterprise-shield:latest      # Latest main
-ghcr.io/yourorg/opencode-enterprise-shield:build-42    # Specific build
-ghcr.io/yourorg/opencode-enterprise-shield:1.0.0       # Semantic version
+ghcr.io/YOLOVibeCode/opencode-enterprise-shield:dev          # Latest dev
+ghcr.io/YOLOVibeCode/opencode-enterprise-shield:latest      # Latest main
+ghcr.io/YOLOVibeCode/opencode-enterprise-shield:build-42    # Specific build
+ghcr.io/YOLOVibeCode/opencode-enterprise-shield:1.0.0       # Semantic version
 ```
 
 ### Binaries
@@ -427,7 +427,7 @@ v1.0.1
 v1.1.0
 
 # Development builds
-# Check: https://github.com/yourorg/enterprise-shield/releases/tag/dev
+# Check: https://github.com/YOLOVibeCode/enterprise-shield/releases/tag/dev
 ```
 
 ### Version in Release Assets
@@ -445,7 +445,7 @@ Every release includes:
 ### Installing Latest Dev Build
 
 ```bash
-$ curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+$ curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 
 Downloading: enterprise-shield-1.1.0+build.42-darwin-arm64.tar.gz
 ✓ Downloaded
@@ -463,7 +463,7 @@ Built: 2026-01-14_03:15:30
 ### Installing Stable Release
 
 ```bash
-$ curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+$ curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 
 Downloading: enterprise-shield-v1.0.0-darwin-arm64.tar.gz
 
@@ -531,13 +531,13 @@ git push origin main
 
 ```bash
 # GitHub releases
-open https://github.com/yourorg/enterprise-shield/releases
+open https://github.com/YOLOVibeCode/enterprise-shield/releases
 
 # Dev builds
-open https://github.com/yourorg/enterprise-shield/releases/tag/dev
+open https://github.com/YOLOVibeCode/enterprise-shield/releases/tag/dev
 
 # Docker builds
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:build-42
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:build-42
 ```
 
 ---

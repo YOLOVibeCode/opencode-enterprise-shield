@@ -11,7 +11,7 @@ const tar = require('tar');
 
 const streamPipeline = promisify(pipeline);
 
-const REPO = 'yourorg/opencode-enterprise-shield';
+const REPO = 'YOLOVibeCode/opencode-enterprise-shield';
 const VERSION = require('../package.json').version;
 
 // Detect platform and architecture

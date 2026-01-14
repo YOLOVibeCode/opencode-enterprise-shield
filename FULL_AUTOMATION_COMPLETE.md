@@ -228,7 +228,7 @@ GitHub Actions (.github/workflows/publish-npm.yml): ✨ NEW!
 ├─ ✅ Update package.json
 ├─ ✅ Download binaries
 ├─ ✅ Publish to NPM
-└─ ✅ Users can: npm install -g @yourorg/enterprise-shield
+└─ ✅ Users can: npm install -g @YOLOVibeCode/enterprise-shield
     ↓
 GitHub Actions (.github/workflows/publish-all.yml): ✨ NEW!
 └─ ✅ Summary of all channel statuses
@@ -259,7 +259,7 @@ ALL 6 channels updated automatically! 🎉
 
 ```bash
 # First install
-$ brew tap yourorg/opencode-enterprise-shield
+$ brew tap YOLOVibeCode/opencode-enterprise-shield
 $ brew install enterprise-shield
 
 # You release v1.0.1 (GitHub Actions auto-updates formula)
@@ -277,13 +277,13 @@ Enterprise Shield Plugin v1.0.1
 
 ```bash
 # First install
-$ npm install -g @yourorg/opencode-enterprise-shield
+$ npm install -g @YOLOVibeCode/opencode-enterprise-shield
 
 # You release v1.0.1 (GitHub Actions auto-publishes to NPM)
 
 # User updates (gets v1.0.1 automatically)
-$ npm update -g @yourorg/opencode-enterprise-shield
-✓ @yourorg/opencode-enterprise-shield@1.0.1
+$ npm update -g @YOLOVibeCode/opencode-enterprise-shield
+✓ @YOLOVibeCode/opencode-enterprise-shield@1.0.1
 
 $ enterprise-shield version
 Enterprise Shield Plugin v1.0.1
@@ -303,7 +303,7 @@ Enterprise Shield Plugin v1.0.1
    mkdir Formula
    cp ../opencode-enterprise-shield/Formula/enterprise-shield.rb Formula/
    git init && git add . && git commit -m "Initial formula"
-   git remote add origin https://github.com/yourorg/homebrew-opencode-enterprise-shield.git
+   git remote add origin https://github.com/YOLOVibeCode/homebrew-opencode-enterprise-shield.git
    git push -u origin main
    ```
 
@@ -318,7 +318,7 @@ Enterprise Shield Plugin v1.0.1
 **Option 1: Full Automation (Both secrets)**
 
 ```bash
-# Go to: https://github.com/yourorg/opencode-enterprise-shield/settings/secrets/actions
+# Go to: https://github.com/YOLOVibeCode/opencode-enterprise-shield/settings/secrets/actions
 
 # Add HOMEBREW_TAP_TOKEN:
 # 1. Create GitHub PAT with 'public_repo' scope
@@ -365,10 +365,10 @@ git tag -a v1.0.1-test -m "Test Homebrew automation"
 git push origin v1.0.1-test
 
 # Watch workflows
-# https://github.com/yourorg/opencode-enterprise-shield/actions
+# https://github.com/YOLOVibeCode/opencode-enterprise-shield/actions
 
 # Check tap repository
-# https://github.com/yourorg/homebrew-opencode-enterprise-shield/commits
+# https://github.com/YOLOVibeCode/homebrew-opencode-enterprise-shield/commits
 
 # Should see: "Update enterprise-shield to v1.0.1-test"
 
@@ -384,13 +384,13 @@ git push origin :v1.0.1-test
 # Same test tag as above
 
 # Check NPM registry after workflow completes
-npm view @yourorg/opencode-enterprise-shield version
+npm view @YOLOVibeCode/opencode-enterprise-shield version
 
 # Should show: 1.0.1-test
 
 # Clean up
 # Contact NPM support to unpublish test version
-# Or: npm unpublish @yourorg/opencode-enterprise-shield@1.0.1-test
+# Or: npm unpublish @YOLOVibeCode/opencode-enterprise-shield@1.0.1-test
 ```
 
 ---
@@ -478,7 +478,7 @@ npm view @yourorg/opencode-enterprise-shield version
    ✅ curl -sSL ... | bash
    ✅ brew install enterprise-shield
    ✅ go install ...@v1.0.0
-   ✅ npm install -g @yourorg/...
+   ✅ npm install -g @YOLOVibeCode/...
    ✅ docker pull .../:v1.0.0
    ✅ Download from /releases/tag/v1.0.0
 ```

@@ -74,7 +74,7 @@ opencode-enterprise-shield/
 │       └── plugin.js                   # JavaScript wrapper
 │
 ├── 🛠️ Distribution Method #5: Go Module
-│   # Already works via: go install github.com/yourorg/.../cmd/plugin@latest
+│   # Already works via: go install github.com/YOLOVibeCode/.../cmd/plugin@latest
 │
 ├── 📦 Distribution Method #6: NPM Package
 │   ├── package.json                    # NPM package definition
@@ -131,8 +131,8 @@ make test
 ### 2. Create GitHub Repository
 
 ```bash
-# Update repository URLs (replace 'yourorg' with your actual org)
-find . -type f -exec sed -i '' 's/yourorg/YOUR_ORG_NAME/g' {} +
+# Update repository URLs (replace 'YOLOVibeCode' with your actual org)
+find . -type f -exec sed -i '' 's/YOLOVibeCode/YOUR_ORG_NAME/g' {} +
 
 # Initialize Git
 git init
@@ -294,7 +294,7 @@ enterprise-shield serve                 # Run as service
 ## 🎯 Next Steps
 
 1. **Replace Placeholders:**
-   - Change `yourorg` to your actual GitHub organization
+   - Change `YOLOVibeCode` to your actual GitHub organization
    - Update repository URLs
    - Add LICENSE file
 

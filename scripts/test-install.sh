@@ -17,7 +17,7 @@ export HOME="/tmp/test-home-shield"
 mkdir -p "$HOME"
 
 # Copy install script and modify for local testing
-sed "s|yourorg/opencode-enterprise-shield|local/test|g" install.sh > /tmp/test-install.sh
+sed "s|YOLOVibeCode/opencode-enterprise-shield|local/test|g" install.sh > /tmp/test-install.sh
 chmod +x /tmp/test-install.sh
 
 echo ""

@@ -30,10 +30,10 @@ Enterprise Shield has automated CI/CD pipelines that ensure every change is test
 **Development Build Access:**
 ```bash
 # Install latest development build
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 
 # Or download manually from
-https://github.com/yourorg/enterprise-shield/releases/tag/dev
+https://github.com/YOLOVibeCode/enterprise-shield/releases/tag/dev
 ```
 
 ---
@@ -56,10 +56,10 @@ https://github.com/yourorg/enterprise-shield/releases/tag/dev
 **Stable Release Access:**
 ```bash
 # Install latest stable release
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 
 # Or specific version
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=v1.0.0 bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=v1.0.0 bash
 ```
 
 ---
@@ -81,13 +81,13 @@ curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/insta
 **Docker Image Access:**
 ```bash
 # Latest stable
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:latest
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:latest
 
 # Development
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:dev
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:dev
 
 # Specific version
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:v1.0.0
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:v1.0.0
 ```
 
 ---
@@ -238,21 +238,21 @@ Every tagged release includes:
 
 View all workflows:
 ```
-https://github.com/yourorg/opencode-enterprise-shield/actions
+https://github.com/YOLOVibeCode/opencode-enterprise-shield/actions
 ```
 
 ### Release Page
 
 View all releases:
 ```
-https://github.com/yourorg/opencode-enterprise-shield/releases
+https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases
 ```
 
 ### Docker Registry
 
 View Docker images:
 ```
-https://github.com/yourorg/opencode-enterprise-shield/pkgs/container/opencode-enterprise-shield
+https://github.com/YOLOVibeCode/opencode-enterprise-shield/pkgs/container/opencode-enterprise-shield
 ```
 
 ---
@@ -439,9 +439,9 @@ Follow Semantic Versioning (semver):
 ## 📞 Support
 
 For CI/CD issues:
-- Check [GitHub Actions](https://github.com/yourorg/opencode-enterprise-shield/actions)
+- Check [GitHub Actions](https://github.com/YOLOVibeCode/opencode-enterprise-shield/actions)
 - Review workflow logs
-- Contact: devops@yourorg.com
+- Contact: devops@YOLOVibeCode.com
 
 ---
 

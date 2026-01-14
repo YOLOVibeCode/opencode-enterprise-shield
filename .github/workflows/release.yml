@@ -116,7 +116,7 @@ jobs:
           echo "" >> release_notes.md
           echo "**Homebrew:**" >> release_notes.md
           echo '```bash' >> release_notes.md
-          echo 'brew tap yourorg/opencode-enterprise-shield' >> release_notes.md
+          echo 'brew tap YOLOVibeCode/opencode-enterprise-shield' >> release_notes.md
           echo 'brew install enterprise-shield' >> release_notes.md
           echo '```' >> release_notes.md
           echo "" >> release_notes.md

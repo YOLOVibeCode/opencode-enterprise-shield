@@ -79,7 +79,7 @@ Every time you push code to the `main` branch, this happens **automatically**:
 
 ### 1. GitHub Development Release
 
-**Location:** `https://github.com/yourorg/opencode-enterprise-shield/releases/tag/dev`
+**Location:** `https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/tag/dev`
 
 **Contains:**
 - ✅ Binaries for all 5 platforms
@@ -90,16 +90,16 @@ Every time you push code to the `main` branch, this happens **automatically**:
 
 **Users access with:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 ```
 
 ### 2. Docker Images (GitHub Container Registry)
 
 **Images created/updated:**
 ```bash
-ghcr.io/yourorg/opencode-enterprise-shield:dev        # Latest main branch
-ghcr.io/yourorg/opencode-enterprise-shield:latest    # Latest main branch
-ghcr.io/yourorg/opencode-enterprise-shield:main-abc123 # Specific commit
+ghcr.io/YOLOVibeCode/opencode-enterprise-shield:dev        # Latest main branch
+ghcr.io/YOLOVibeCode/opencode-enterprise-shield:latest    # Latest main branch
+ghcr.io/YOLOVibeCode/opencode-enterprise-shield:main-abc123 # Specific commit
 ```
 
 **Multi-architecture support:**
@@ -108,7 +108,7 @@ ghcr.io/yourorg/opencode-enterprise-shield:main-abc123 # Specific commit
 
 **Users access with:**
 ```bash
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:dev
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:dev
 ```
 
 ### 3. Install Script
@@ -129,7 +129,7 @@ VERSION=v1.0.0 bash install.sh
 
 **Auto-indexed** when you push to main:
 ```bash
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@main
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@main
 ```
 
 ---
@@ -140,13 +140,13 @@ go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@main
 
 **Latest Stable (Recommended):**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 # Installs latest tagged version (e.g., v1.0.0)
 ```
 
 **Latest Development (Bleeding Edge):**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 # Installs latest main branch build
 ```
 
@@ -158,7 +158,7 @@ export ENTERPRISE_SHIELD_CHANNEL=dev
 curl -sSL ... | bash
 
 # Or via Docker
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:dev
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:dev
 ```
 
 ---
@@ -254,10 +254,10 @@ $ git push origin main
 **Users can now install:**
 ```bash
 # Immediately available
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 
 # Or via Docker
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:dev
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:dev
 ```
 
 ---
@@ -283,13 +283,13 @@ git push origin v1.0.1
 
 ```bash
 # View workflows
-open https://github.com/yourorg/opencode-enterprise-shield/actions
+open https://github.com/YOLOVibeCode/opencode-enterprise-shield/actions
 
 # View releases
-open https://github.com/yourorg/opencode-enterprise-shield/releases
+open https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases
 
 # View Docker images
-open https://github.com/yourorg/opencode-enterprise-shield/pkgs/container/opencode-enterprise-shield
+open https://github.com/YOLOVibeCode/opencode-enterprise-shield/pkgs/container/opencode-enterprise-shield
 ```
 
 ---

@@ -62,7 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Core type definitions
 - Basic sanitization engine prototype
 
-[Unreleased]: https://github.com/yourorg/opencode-enterprise-shield/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/yourorg/opencode-enterprise-shield/releases/tag/v1.0.0
-[0.1.0]: https://github.com/yourorg/opencode-enterprise-shield/releases/tag/v0.1.0
+[Unreleased]: https://github.com/YOLOVibeCode/opencode-enterprise-shield/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/tag/v1.0.0
+[0.1.0]: https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/tag/v0.1.0
 

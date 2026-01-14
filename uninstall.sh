@@ -84,7 +84,7 @@ main() {
     echo ""
     log_success "Enterprise Shield has been uninstalled"
     echo ""
-    log_info "To reinstall: curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash"
+    log_info "To reinstall: curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash"
     echo ""
 }
 

@@ -1,25 +1,25 @@
 # Homebrew Formula for Enterprise Shield
 class EnterpriseShield < Formula
   desc "Enterprise-grade security plugin for OpenCode AI assistant"
-  homepage "https://github.com/yourorg/opencode-enterprise-shield"
+  homepage "https://github.com/YOLOVibeCode/opencode-enterprise-shield"
   version "1.0.0"
   
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-darwin-arm64.tar.gz"
+      url "https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-darwin-arm64.tar.gz"
       sha256 "PLACEHOLDER_DARWIN_ARM64" # darwin-arm64
     else
-      url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-darwin-amd64.tar.gz"
+      url "https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-darwin-amd64.tar.gz"
       sha256 "PLACEHOLDER_DARWIN_AMD64" # darwin-amd64
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-linux-arm64.tar.gz"
+      url "https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-linux-arm64.tar.gz"
       sha256 "PLACEHOLDER_LINUX_ARM64" # linux-arm64
     else
-      url "https://github.com/yourorg/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-linux-amd64.tar.gz"
+      url "https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases/download/v1.0.0/enterprise-shield-v1.0.0-linux-amd64.tar.gz"
       sha256 "PLACEHOLDER_LINUX_AMD64" # linux-amd64
     end
   end
@@ -64,7 +64,7 @@ class EnterpriseShield < Formula
     puts "  enterprise-shield scan <content>  # Scan for violations"
     puts "  enterprise-shield init            # Reinitialize config"
     puts ""
-    puts "Documentation: https://github.com/yourorg/opencode-enterprise-shield"
+    puts "Documentation: https://github.com/YOLOVibeCode/opencode-enterprise-shield"
   end
 
   test do

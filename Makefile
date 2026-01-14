@@ -122,13 +122,13 @@ release-test: release
 ## docker-build: Build Docker image
 docker-build:
 	@echo "Building Docker image..."
-	docker build -t yourorg/enterprise-shield:$(VERSION) .
-	docker tag yourorg/enterprise-shield:$(VERSION) yourorg/enterprise-shield:latest
+	docker build -t YOLOVibeCode/enterprise-shield:$(VERSION) .
+	docker tag YOLOVibeCode/enterprise-shield:$(VERSION) YOLOVibeCode/enterprise-shield:latest
 
 ## docker-push: Push Docker image to registry
 docker-push: docker-build
-	docker push yourorg/enterprise-shield:$(VERSION)
-	docker push yourorg/enterprise-shield:latest
+	docker push YOLOVibeCode/enterprise-shield:$(VERSION)
+	docker push YOLOVibeCode/enterprise-shield:latest
 
 ## bump-major: Bump major version (breaking changes)
 bump-major:

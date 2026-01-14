@@ -61,7 +61,7 @@ To enable full automation of Homebrew and NPM publishing, you need to configure 
 
 3. **Verify NPM Package Name is Available:**
    ```bash
-   npm search @yourorg/opencode-enterprise-shield
+   npm search @YOLOVibeCode/opencode-enterprise-shield
    ```
    - If not found, name is available
    - If found, choose different name or claim it
@@ -169,18 +169,18 @@ git tag -a v1.0.1-test -m "Test release"
 git push origin v1.0.1-test
 
 # 3. Watch workflows
-# https://github.com/yourorg/opencode-enterprise-shield/actions
+# https://github.com/YOLOVibeCode/opencode-enterprise-shield/actions
 # Should see 3 workflows run:
 #   - Release (builds binaries)
 #   - Update Homebrew Formula
 #   - Publish to NPM
 
 # 4. Verify Homebrew formula updated
-# https://github.com/yourorg/homebrew-opencode-enterprise-shield/commits/main
+# https://github.com/YOLOVibeCode/homebrew-opencode-enterprise-shield/commits/main
 # Should see commit: "Update enterprise-shield to v1.0.1-test"
 
 # 5. Verify NPM package published
-npm view @yourorg/opencode-enterprise-shield version
+npm view @YOLOVibeCode/opencode-enterprise-shield version
 # Should show: 1.0.1-test
 
 # 6. Clean up test release
@@ -228,7 +228,7 @@ git push origin :v1.0.1-test
 **Error:** "402 Payment Required"
 
 **Solution:**
-- Trying to publish scoped package (@yourorg/...) to free account
+- Trying to publish scoped package (@YOLOVibeCode/...) to free account
 - Either publish unscoped or upgrade to paid NPM account
 - For organizations, need NPM Orgs subscription
 

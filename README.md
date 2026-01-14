@@ -4,7 +4,7 @@
 
 Enterprise Shield is a production-ready OpenCode plugin that automatically detects and masks sensitive information (database names, servers, IPs, credentials, PII) before sending to LLM APIs — then seamlessly restores the original values in responses.
 
-[![Tests](https://img.shields.io/badge/tests-24%20passing-brightgreen)](https://github.com/yourorg/opencode-enterprise-shield)
+[![Tests](https://img.shields.io/badge/tests-24%20passing-brightgreen)](https://github.com/YOLOVibeCode/opencode-enterprise-shield)
 [![Go Version](https://img.shields.io/badge/go-1.22-blue)](https://golang.org)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
@@ -178,7 +178,7 @@ TOTAL ONGOING COST:                                 ~$200/year in labor
 ### Method 1: One-Line Install (Recommended) ⭐
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/opencode-enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/opencode-enterprise-shield/main/install.sh | bash
 ```
 
 **What this does:**
@@ -194,7 +194,7 @@ curl -sSL https://raw.githubusercontent.com/yourorg/opencode-enterprise-shield/m
 
 ```bash
 # Add the tap
-brew tap yourorg/opencode-enterprise-shield
+brew tap YOLOVibeCode/opencode-enterprise-shield
 
 # Install
 brew install enterprise-shield
@@ -213,7 +213,7 @@ brew uninstall enterprise-shield
 
 ```bash
 # Install latest version
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@latest
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@latest
 
 # Symlink to OpenCode plugins directory
 ln -s $(go env GOPATH)/bin/plugin ~/.opencode/plugins/enterprise-shield
@@ -226,7 +226,7 @@ enterprise-shield init
 
 ```bash
 # Install globally
-npm install -g @yourorg/opencode-enterprise-shield
+npm install -g @YOLOVibeCode/opencode-enterprise-shield
 
 # Verify
 enterprise-shield version
@@ -236,18 +236,18 @@ enterprise-shield version
 
 ```bash
 # Pull image
-docker pull yourorg/enterprise-shield:latest
+docker pull YOLOVibeCode/enterprise-shield:latest
 
 # Run
-docker run -v ~/.opencode:/root/.opencode yourorg/enterprise-shield:latest
+docker run -v ~/.opencode:/root/.opencode YOLOVibeCode/enterprise-shield:latest
 
 # Run specific command
-docker run yourorg/enterprise-shield:latest scan "Test content"
+docker run YOLOVibeCode/enterprise-shield:latest scan "Test content"
 ```
 
 ### Method 6: Manual Download
 
-1. Download from [GitHub Releases](https://github.com/yourorg/opencode-enterprise-shield/releases)
+1. Download from [GitHub Releases](https://github.com/YOLOVibeCode/opencode-enterprise-shield/releases)
 2. Choose your platform:
    - macOS Intel: `enterprise-shield-v1.0.0-darwin-amd64.tar.gz`
    - macOS Apple Silicon: `enterprise-shield-v1.0.0-darwin-arm64.tar.gz`
@@ -290,7 +290,7 @@ enterprise-shield process test@example.com "Query ServerDB01" openai
 ### 1. Install
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 ```
 
 ### 2. Test Compliance Detection
@@ -714,11 +714,11 @@ Open source and free for commercial use.
 
 ## 📞 Support & Contact
 
-- **📖 Documentation**: [Complete docs](https://github.com/yourorg/opencode-enterprise-shield)
-- **🐛 Issues**: [GitHub Issues](https://github.com/yourorg/opencode-enterprise-shield/issues)
-- **🔒 Security**: security@yourorg.com (responsible disclosure)
-- **💼 Enterprise Support**: enterprise@yourorg.com
-- **💬 Community**: [Discussions](https://github.com/yourorg/opencode-enterprise-shield/discussions)
+- **📖 Documentation**: [Complete docs](https://github.com/YOLOVibeCode/opencode-enterprise-shield)
+- **🐛 Issues**: [GitHub Issues](https://github.com/YOLOVibeCode/opencode-enterprise-shield/issues)
+- **🔒 Security**: security@YOLOVibeCode.com (responsible disclosure)
+- **💼 Enterprise Support**: enterprise@YOLOVibeCode.com
+- **💬 Community**: [Discussions](https://github.com/YOLOVibeCode/opencode-enterprise-shield/discussions)
 
 ---
 
@@ -740,7 +740,7 @@ Open source and free for commercial use.
 
 ```bash
 # One command to install
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 
 # That's it! You're protected.
 ```

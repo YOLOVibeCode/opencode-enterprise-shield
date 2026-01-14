@@ -11,7 +11,7 @@ if [ -z "$VERSION" ]; then
 fi
 
 FORMULA_FILE="Formula/enterprise-shield.rb"
-REPO="yourorg/opencode-enterprise-shield"
+REPO="YOLOVibeCode/opencode-enterprise-shield"
 
 echo "Updating Homebrew formula for version ${VERSION}..."
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Enterprise Shield Plugin - Installation Script
-# Usage: curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 
 set -e
 
@@ -12,7 +12,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO="yourorg/opencode-enterprise-shield"
+REPO="YOLOVibeCode/opencode-enterprise-shield"
 GITHUB_URL="https://github.com/${REPO}"
 BINARY_NAME="enterprise-shield"
 INSTALL_DIR="${HOME}/.opencode/plugins"

@@ -50,10 +50,10 @@ $ git push origin main
 **Users can immediately install from:**
 ```bash
 # Development build (latest main)
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | VERSION=dev bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | VERSION=dev bash
 
 # Docker
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:dev
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:dev
 ```
 
 ### When You Create a Release Tag:
@@ -76,16 +76,16 @@ $ git push origin v1.0.0
 **Users can install from:**
 ```bash
 # Stable release (recommended)
-curl -sSL https://raw.githubusercontent.com/yourorg/enterprise-shield/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOLOVibeCode/enterprise-shield/main/install.sh | bash
 
 # Homebrew
 brew install enterprise-shield
 
 # Go
-go install github.com/yourorg/opencode-enterprise-shield/cmd/plugin@v1.0.0
+go install github.com/YOLOVibeCode/opencode-enterprise-shield/cmd/plugin@v1.0.0
 
 # Docker
-docker pull ghcr.io/yourorg/opencode-enterprise-shield:latest
+docker pull ghcr.io/YOLOVibeCode/opencode-enterprise-shield:latest
 ```
 
 ---
@@ -153,8 +153,8 @@ ROI:      40,000% - 105,000%
 ```bash
 cd /Users/admin/Dev/YOLOProjects/opencode-enterprise-shield
 
-# Replace 'yourorg' with your actual GitHub organization
-find . -type f -not -path "./.git/*" -exec sed -i '' 's/yourorg/YOUR_ACTUAL_ORG/g' {} +
+# Replace 'YOLOVibeCode' with your actual GitHub organization
+find . -type f -not -path "./.git/*" -exec sed -i '' 's/YOLOVibeCode/YOUR_ACTUAL_ORG/g' {} +
 
 git add -A
 git commit -m "chore: Update repository URLs for production"
